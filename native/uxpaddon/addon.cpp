@@ -1,28 +1,76 @@
 // BeatCheat Pro — Adobe UXP Hybrid bridge.
-//
-// This file intentionally keeps the Adobe SDK surface at the edge.
-// The detector itself has no UXP dependency and is unit-testable independently.
-//
-// The exact addon_apis calls below follow the Adobe Hybrid SDK template/API
-// shipped through the Adobe Developer Console. Do not copy Node-API headers
-// into this project: UxpAddon.h/UxpAddonShared.h are the supported bridge.
+// Exposes analyze(Float32Array/ArrayBuffer, sampleRate) as a synchronous native DSP call.
 
 #include "UxpAddon.h"
 #include "UxpAddonShared.h"
 #include "beatcheatpro.h"
 
+#include <cstddef>
+#include <sstream>
+#include <string>
+
 namespace {
-addon_value init(addon_env env, addon_value exports) {
-  // The SDK template owns the initialization ABI. Native exports will be
-  // registered here once the extracted SDK version is selected for the build.
-  // Keeping this function intentionally minimal prevents DSP code from
-  // depending on Adobe's evolving bridge types.
-  (void)env;
-  return exports;
+addon_value Analyze(addon_env env, addon_callback_info info) {
+    try {
+        size_t argc = 2;
+        addon_value args[2] = { nullptr, nullptr };
+        UxpAddonApis.uxp_addon_get_cb_info(env, info, &argc, args, nullptr, nullptr);
+        if (argc < 2) return nullptr;
+
+        void* raw = nullptr;
+        size_t byteLength = 0;
+        if (UxpAddonApis.uxp_addon_get_arraybuffer_info(env, args[0], &raw, &byteLength) != addon_ok ||
+            !raw || byteLength < sizeof(float)) {
+            return nullptr;
+        }
+
+        double sampleRate = 0.0;
+        if (UxpAddonApis.uxp_addon_get_value_double(env, args[1], &sampleRate) != addon_ok) {
+            return nullptr;
+        }
+
+        const auto* samples = static_cast<const float*>(raw);
+        const auto result = beatcheatpro::analyze(samples, byteLength / sizeof(float), sampleRate);
+
+        // JSON keeps the bridge small and version-tolerant. JS owns the public event model.
+        std::ostringstream json;
+        json << "{\"bpm\":" << result.bpm
+             << ",\"quality\":" << result.quality
+             << ",\"events\":[";
+        for (std::size_t i = 0; i < result.events.size(); ++i) {
+            if (i) json << ",";
+            const auto& e = result.events[i];
+            json << "{\"time\":" << e.timeSeconds
+                 << ",\"confidence\":" << e.confidence
+                 << ",\"strength\":" << e.strength
+                 << ",\"type\":" << static_cast<int>(e.type) << "}";
+        }
+        json << "]}";
+
+        const std::string text = json.str();
+        addon_value out = nullptr;
+        UxpAddonApis.uxp_addon_create_string_utf8(
+            env, text.c_str(), text.size(), &out);
+        return out;
+    } catch (...) {
+        return nullptr;
+    }
 }
 
-void terminate() {}
+addon_value Init(addon_env env, addon_value exports, const addon_apis& apis) {
+    addon_value fn = nullptr;
+    if (apis.uxp_addon_create_function(env, "analyze", 7, Analyze, nullptr, &fn) != addon_ok) {
+        apis.uxp_addon_throw_error(env, nullptr, "BeatCheat Pro: create_function failed");
+        return exports;
+    }
+    if (apis.uxp_addon_set_named_property(env, exports, "analyze", fn) != addon_ok) {
+        apis.uxp_addon_throw_error(env, nullptr, "BeatCheat Pro: export registration failed");
+    }
+    return exports;
 }
 
-UXP_ADDON_INIT(init);
-UXP_ADDON_TERMINATE(terminate);
+void Terminate(addon_env) {}
+}
+
+UXP_ADDON_INIT(Init)
+UXP_ADDON_TERMINATE(Terminate)
