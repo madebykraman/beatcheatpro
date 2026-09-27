@@ -131,7 +131,7 @@ AnalysisResult analyze(const float* samples,std::size_t count,double sampleRate)
     for(int d=-5;d<=5;d++){const auto j=static_cast<long long>(f)+d;if(j>=0&&static_cast<std::size_t>(j)<frames&&novelty[j]>peak){peak=novelty[j];refined=static_cast<std::size_t>(j);}}
     double t=static_cast<double>(refined*kHop)/sampleRate;const Candidate* near=nullptr;double dist=.09;
     for(const auto& c:candidates){const double d=std::abs(c.time-t);if(d<dist){dist=d;near=&c;}}
-    Event e{};e.timeSeconds=near?near->time:t;e.strength=static_cast<float>(std::max(0.0,peak));e.confidence=static_cast<float>(std::min(1.0,.40+peak/5.0+(near?.16:0.0)));e.type=EventType::Beat;beats.push_back(e);
+    Event e{};e.timeSeconds=near?near->time:t;e.strength=static_cast<float>(std::max(0.0,peak));e.confidence=static_cast<float>(std::min(1.0,.40+peak/5.0+(near ? 0.16 : 0.0)));e.type=EventType::Beat;beats.push_back(e);
   }
 
   const bool stable=best.score>.08;
