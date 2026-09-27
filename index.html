@@ -37,13 +37,19 @@
       <div><strong id="bpm">—</strong><span>BPM</span></div>
       <div><strong id="events">—</strong><span>EVENTS</span></div>
       <div><strong id="quality">—</strong><span>QUALITY</span></div>
+      <div><strong id="cutCount">—</strong><span>CUT CANDIDATES</span></div>
     </section>
     <section class="actions">
       <button id="analyze" class="primary" disabled>Analyze</button>
+      <button id="previewCuts" disabled>Preview cut plan</button>
       <button id="markers" disabled>Create markers in Premiere</button>
     </section>
+    <section id="cutPreview" class="card preview" hidden>
+      <div class="eyebrow">CUT PLAN · NON-DESTRUCTIVE PREVIEW</div>
+      <div id="cutList" class="cut-list"></div>
+    </section>
     <div id="status" class="status">Ready.</div>
-    <footer>BeatCheat Pro · 0.1.0 · internal build</footer>
+    <footer>BeatCheat Pro · 0.3.0 · internal build</footer>
   </main>
   <script src="main.js"></script>
 </body>
