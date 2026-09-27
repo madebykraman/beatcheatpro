@@ -25,8 +25,8 @@ async function mapSelectedClip(){
 async function runAnalysis(){
   if(!loadedAudio)return;setStatus("Analyzing waveform and onset envelope…");$("analyze").disabled=true;
   try{
-    const {decodeWav}=require("./src/wav.js"),{analyze}=require("./src/dsp.js"),wav=decodeWav(loadedAudio.buffer);
-    analysis=analyze(wav.samples,wav.sampleRate,{threshold:Number($("confidence").value),minSpacing:Number($("spacing").value)});
+    const {decodeWav}=require("./src/wav.js"),{analyze}=require("./src/dsp.js"),{getNativeAddon}=require("./src/native.js"),wav=decodeWav(loadedAudio.buffer);
+    const native=getNativeAddon();\n    if(native&&typeof native.analyze==="function"){const raw=native.analyze(wav.samples.buffer,wav.sampleRate);const parsed=JSON.parse(raw);analysis={...parsed,events:parsed.events.map(e=>({time:e.time,confidence:e.confidence,strength:e.strength,type:e.type===2?"downbeat":e.type===1?"onset":"beat",source:"native-dsp"})),duration:wav.duration};}else{analysis=analyze(wav.samples,wav.sampleRate,{threshold:Number($("confidence").value),minSpacing:Number($("spacing").value)});}
     const visible=analysis.events.filter(e=>e.confidence>=Number($("confidence").value)&&((($("beats").checked||$("downbeats").checked)&& (e.type==="beat"||e.type==="downbeat"))||($("onsets").checked&&e.type==="onset")));
     $("bpm").textContent=analysis.bpm?analysis.bpm.toFixed(1):"—";$("events").textContent=visible.length;$("quality").textContent=Math.round(analysis.quality*100)+"%";$("markers").disabled=!visible.length;setStatus("Analysis complete. "+visible.length+" musical events ready.");
   }catch(e){setStatus("Analysis failed: "+e.message);}finally{$("analyze").disabled=false;}
