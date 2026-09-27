@@ -18,10 +18,12 @@ if(BUILD_TESTING)
   add_executable(beatcheatpro_detector_smoke tests/detector_smoke.cpp)
   target_link_libraries(beatcheatpro_detector_smoke PRIVATE beatcheatpro_dsp)
   add_test(NAME beatcheatpro_detector_smoke COMMAND beatcheatpro_detector_smoke)
+
+  add_executable(beatcheatpro_detector_edge tests/detector_edge.cpp)
+  target_link_libraries(beatcheatpro_detector_edge PRIVATE beatcheatpro_dsp)
+  add_test(NAME beatcheatpro_detector_edge COMMAND beatcheatpro_detector_edge)
 endif()
 
-# Adobe UXP Hybrid addon bridge.
-# Point UXP_HYBRID_SDK_ROOT at the extracted Adobe Hybrid Plugin SDK.
 option(BUILD_UXP_ADDON "Build the Premiere UXP native addon bridge" OFF)
 set(UXP_HYBRID_SDK_ROOT "" CACHE PATH "Adobe UXP Hybrid Plugin SDK root")
 if(BUILD_UXP_ADDON)
@@ -32,11 +34,11 @@ if(BUILD_UXP_ADDON)
   target_link_libraries(beatcheatpro_uxpaddon PRIVATE beatcheatpro_dsp)
   target_include_directories(beatcheatpro_uxpaddon PRIVATE
     "${UXP_HYBRID_SDK_ROOT}/src/api"
+    "${UXP_HYBRID_SDK_ROOT}/src/utilities"
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
   )
-  if(MSVC)
-    set_target_properties(beatcheatpro_uxpaddon PROPERTIES OUTPUT_NAME "beatcheatpro_dsp" SUFFIX ".uxpaddon")
-  else()
-    set_target_properties(beatcheatpro_uxpaddon PROPERTIES OUTPUT_NAME "beatcheatpro_dsp" SUFFIX ".uxpaddon")
-  endif()
+  set_target_properties(beatcheatpro_uxpaddon PROPERTIES
+    OUTPUT_NAME "beatcheatpro_dsp"
+    SUFFIX ".uxpaddon"
+  )
 endif()
