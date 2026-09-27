@@ -1,0 +1,8 @@
+native/build/
+native/build-*/
+dist/
+*.uxpaddon
+*.dylib
+*.dll
+*.so
+.DS_Store
