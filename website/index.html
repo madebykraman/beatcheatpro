@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#070707">
+  <meta name="description" content="BeatCheat Pro — Hear the beat. Cut on the moment. Precision beat and onset detection for Premiere Pro.">
+  <title>BeatCheat Pro — Hear the beat. Cut on the moment.</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="nav">
+    <a class="brand" href="#">
+      <span class="brand-mark"><i></i><i></i><i></i><i></i><i></i></span>
+      <span>BEATCHEAT <b>PRO</b></span>
+    </a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#workflow">Workflow</a>
+    </nav>
+    <a class="nav-cta" href="#download">Get BeatCheat Pro <span>↗</span></a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> AUDIO-AWARE EDITING FOR PREMIERE PRO</div>
+        <h1>Hear the beat.<br><em>Cut on the moment.</em></h1>
+        <p class="hero-sub">BeatCheat Pro listens to the actual audio transient—not just a BPM grid—so your cuts land where the music hits.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#download">Explore the workflow <span>→</span></a>
+          <a class="button ghost" href="#how"><span class="play">▶</span> See how it works</a>
+        </div>
+        <div class="hero-note"><span>●</span> Built for Premiere Pro · Windows x64</div>
+      </div>
+
+      <div class="hero-visual" aria-label="Beat detection visualization">
+        <div class="visual-top"><span>LIVE ANALYSIS</span><span>120.0 BPM</span></div>
+        <div class="wave">
+          <div class="wave-line"></div>
+          <div class="beat b1"><span>01</span></div>
+          <div class="beat b2"><span>02</span></div>
+          <div class="beat b3"><span>03</span></div>
+          <div class="beat b4"><span>04</span></div>
+          <div class="playhead"></div>
+        </div>
+        <div class="visual-bottom">
+          <span>ONSET CONFIDENCE</span><strong>94%</strong>
+          <span class="source">AUDIO EVIDENCE</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Capabilities">
+      <div>ONSET DETECTION</div><span>✦</span><div>BEAT TRACKING</div><span>✦</span><div>DOWNBEAT INFERENCE</div><span>✦</span><div>TIMELINE MAPPING</div><span>✦</span><div>CONFIDENCE SCORING</div><span>✦</span>
+    </section>
+
+    <section id="how" class="section split">
+      <div class="section-label">01 / THE IDEA</div>
+      <div>
+        <h2>A BPM number is<br><em>not a beat.</em></h2>
+        <p class="lead">Most beat tools draw a mathematically perfect grid and call it done. BeatCheat Pro starts with the waveform, finds the evidence in the audio, then uses tempo and phase as hypotheses to organize what it heard.</p>
+        <div class="principles">
+          <article><span>01</span><h3>Listen first</h3><p>Spectral changes and transient energy establish where something actually happened.</p></article>
+          <article><span>02</span><h3>Track the pulse</h3><p>Tempo and phase hypotheses organize repeated musical events without overriding the audio.</p></article>
+          <article><span>03</span><h3>Refine the moment</h3><p>Candidate beats are pulled toward the real transient and scored for confidence.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section features">
+      <div class="section-label">02 / WHAT IT DOES</div>
+      <div class="feature-grid">
+        <article class="feature hero-card">
+          <div class="card-kicker">AUDIO EVIDENCE</div>
+          <h3>Find the moment<br>the music <em>hits.</em></h3>
+          <div class="mini-spectrum"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p>Multi-band spectral flux separates low, mid and high-frequency energy so kick, snare and percussion activity can contribute to event confidence.</p>
+        </article>
+        <article class="feature">
+          <div class="icon">◌</div><h3>Tempo hypotheses</h3><p>Searches a broad tempo range instead of blindly trusting a single BPM estimate.</p><span class="card-foot">55—190 BPM</span>
+        </article>
+        <article class="feature">
+          <div class="icon">⌁</div><h3>Transient refinement</h3><p>Beat positions are locally refined toward actual audio evidence instead of staying locked to a theoretical grid.</p><span class="card-foot">FRAME-LEVEL REFINEMENT</span>
+        </article>
+        <article class="feature">
+          <div class="icon">◎</div><h3>Confidence</h3><p>Every event carries confidence and strength, giving edit decisions a measurable signal.</p><span class="card-foot">0.00—1.00</span>
+        </article>
+        <article class="feature">
+          <div class="icon">⌗</div><h3>Timeline aware</h3><p>Maps source-audio timestamps into the selected Premiere clip, including source in-points and playback speed.</p><span class="card-foot">SOURCE → SEQUENCE</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="workflow" class="section workflow">
+      <div class="section-label">03 / THE WORKFLOW</div>
+      <div class="workflow-head"><h2>From waveform<br>to <em>edit point.</em></h2><p>Designed around a simple rule: weak evidence should never quietly become a destructive cut.</p></div>
+      <div class="steps">
+        <div class="step"><span>01</span><div><b>Choose audio</b><p>Load the source WAV you want to analyze.</p></div></div>
+        <div class="connector"></div>
+        <div class="step"><span>02</span><div><b>Analyze</b><p>Beat, onset and downbeat candidates are scored.</p></div></div>
+        <div class="connector"></div>
+        <div class="step"><span>03</span><div><b>Map</b><p>Match the audio to the selected Premiere timeline clip.</p></div></div>
+        <div class="connector"></div>
+        <div class="step"><span>04</span><div><b>Preview</b><p>Review event confidence before committing anything.</p></div></div>
+        <div class="connector"></div>
+        <div class="step"><span>05</span><div><b>Cut</b><p>Apply only deliberate, validated edit points.</p></div></div>
+      </div>
+    </section>
+
+    <section class="quote">
+      <div class="quote-mark">“</div>
+      <blockquote>Don't cut where the grid says the beat should be.<br><em>Cut where the record actually hits.</em></blockquote>
+      <div class="quote-line"></div>
+      <span>BEATCHEAT PRO / DESIGN PRINCIPLE</span>
+    </section>
+
+    <section id="download" class="final">
+      <div class="final-glow"></div>
+      <div class="eyebrow"><span class="pulse"></span> BEATCHEAT PRO</div>
+      <h2>Your timeline.<br><em>In rhythm.</em></h2>
+      <p>The editing assistant built around audio evidence, not just arithmetic.</p>
+      <a class="button primary large" href="https://github.com/madebykraman/beatcheatpro">View the project on GitHub <span>↗</span></a>
+      <small>Premiere Pro · Windows x64 · Hybrid UXP Plugin</small>
+    </section>
+  </main>
+
+  <footer><span>© BeatCheat Pro</span><span>HEAR THE BEAT. CUT ON THE MOMENT.</span><span>v0.3</span></footer>
+  <script src="./script.js"></script>
+</body>
+</html>
