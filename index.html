@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>BeatCheat Pro</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="brand-mark">BC</div>
+      <div>
+        <div class="brand">BEATCHEAT <span>PRO</span></div>
+        <div class="tagline">Hear the beat. Cut on the moment.</div>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="eyebrow">AUDIO SOURCE</div>
+      <button id="choose">Choose WAV audio</button>
+      <div id="fileName" class="muted">No audio loaded</div>
+    </section>
+
+    <section class="card">
+      <div class="eyebrow">DETECTION</div>
+      <label>Minimum confidence <output id="confidenceOut">0.55</output></label>
+      <input id="confidence" type="range" min="0.20" max="0.95" step="0.01" value="0.55">
+      <label>Minimum beat spacing <output id="spacingOut">0.22s</output></label>
+      <input id="spacing" type="range" min="0.12" max="0.60" step="0.01" value="0.22">
+      <div class="checks">
+        <label><input id="beats" type="checkbox" checked> Beats</label>
+        <label><input id="downbeats" type="checkbox" checked> Downbeats</label>
+        <label><input id="onsets" type="checkbox" checked> Strong onsets</label>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div><strong id="bpm">—</strong><span>BPM</span></div>
+      <div><strong id="events">—</strong><span>EVENTS</span></div>
+      <div><strong id="quality">—</strong><span>QUALITY</span></div>
+    </section>
+
+    <section class="actions">
+      <button id="analyze" class="primary" disabled>Analyze</button>
+      <button id="markers" disabled>Create markers in Premiere</button>
+    </section>
+
+    <div id="status" class="status">Ready.</div>
+    <footer>BeatCheat Pro · 0.1.0 · internal build</footer>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>
