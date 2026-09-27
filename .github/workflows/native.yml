@@ -1,0 +1,24 @@
+name: Native DSP
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  detector:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S native -B native/build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+      - name: Build
+        run: cmake --build native/build --config Release
+      - name: Test
+        run: ctest --test-dir native/build --output-on-failure -C Release
+
+  hybrid-build:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hybrid SDK is downloaded from Adobe Developer Console and is not committed to this repository."
