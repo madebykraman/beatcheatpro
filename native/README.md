@@ -1,22 +1,29 @@
-# BeatCheat Pro Native DSP
+# BeatCheat Pro Native / Hybrid DSP
 
-This directory is reserved for the Premiere UXP Hybrid Plugin implementation.
+BeatCheat Pro keeps the detector core independent from Adobe UXP.
 
-Premiere Pro 26.2+ supports UXP Hybrid Plugins, allowing JavaScript/UXP to call a compiled C++ addon. Adobe explicitly identifies audio DSP and waveform analysis as appropriate workloads for this architecture.
+## Requirements
 
-The native layer will own:
-- high-throughput PCM decoding where required
-- multi-band spectral flux
-- complex-domain onset detection
-- adaptive whitening / normalization
-- kick/snare/hat feature bands
-- beat tracking and local phase correction
-- optional ML inference
-- SIMD/vectorized processing
+- Premiere Pro 26.2+
+- UXP Developer Tool 2.2+
+- Adobe UXP Hybrid Plugin SDK from the Adobe Developer Console
+- CMake 3.20+
+- C++20 toolchain
 
-The stable JS contract is:
-analyzeAudio(samples, sampleRate, options) -> { bpm, quality, events[] }
+Hybrid plugins require Manifest v6, the enableAddon permission, and a .uxpaddon binary.
 
-Keep the UI independent of C++ implementation details.
+## Build
 
-Required Adobe host target for this layer: Premiere Pro 26.2+.
+Set UXP_HYBRID_SDK_ROOT to the unpacked Adobe UXP Hybrid Plugin SDK.
+
+Configure CMake with BUILD_UXP_ADDON=ON and UXP_HYBRID_SDK_ROOT set to that SDK path, then build in Release mode.
+
+The bridge is deliberately thin. The DSP implementation lives in src/detector.cpp; Adobe-specific ABI code lives only in uxpaddon/addon.cpp.
+
+## Packaging
+
+The final bundle needs the native addon for each supported platform/architecture. For full distribution this means macOS arm64, macOS x64, and Windows x64.
+
+Production macOS binaries must be Developer ID signed and notarized.
+
+Do not commit Adobe SDK headers or compiled .uxpaddon binaries to this repository.
